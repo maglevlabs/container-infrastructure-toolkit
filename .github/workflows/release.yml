@@ -49,11 +49,10 @@ jobs:
           docker push ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.build_version }}
 
       - name: Create GitHub Release
-        if: github.event_name == 'push'
         uses: actions/create-release@v1
         with:
           tag_name: ${{ github.ref }}
-          release_name: Infrastructure Toolit - Release ${{ github.ref }}
+          release_name: Infrastructure Toolkit - Release ${{ github.ref }}
           body: |
             `docker pull ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.build_version }}`
           draft: false
