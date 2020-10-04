@@ -11,3 +11,4 @@
 | kubectl | v1.19.0 | https://github.com/kubernetes/kubernetes/blob/v1.19.0/CHANGELOG/CHANGELOG-1.19.md |
 | terraform | v0.13.4 | https://github.com/hashicorp/terraform/releases/tag/v0.13.4 |
 | terragrunt | v0.25.2 | https://github.com/gruntwork-io/terragrunt/releases/tag/v0.25.2 |
+| yamllint | 1.25.0 | https://github.com/adrienverge/yamllint/blob/master/CHANGELOG.rst#1250-2020-09-29 |

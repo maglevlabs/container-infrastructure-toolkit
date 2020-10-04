@@ -23,6 +23,7 @@ ENV TOOL_VERSION_ANSIBLE="2.10.0" \
     TOOL_VERSION_KUBECTL="1.19.0" \
     TOOL_VERSION_TERRAFORM="0.13.4" \
     TOOL_VERSION_TERRAGRUNT="0.25.2" \
+    TOOL_VERSION_YAMLLINT="1.25.0" \
     PATH="${PATH}:/usr/local/bin/google-cloud-sdk/bin"
 
 RUN yum install -y \
@@ -32,6 +33,7 @@ RUN yum install -y \
     && pip3 install --no-cache-dir \
       ansible==${TOOL_VERSION_ANSIBLE} \
       ansible-base==${TOOL_VERSION_ANSIBLE} \
+      yamllint==${TOOL_VERSION_YAMLLINT} \
     # AWS CLI
     && curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${TOOL_VERSION_AWSCLI}.zip \
       -o awscli-exe-linux-x86_64-${TOOL_VERSION_AWSCLI}.zip \
