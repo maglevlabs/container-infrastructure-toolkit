@@ -1,0 +1,48 @@
+---
+name: Latest
+
+on:
+  push:
+    branches:
+      - 'main'
+
+env:
+  DOCKER_USERNAME: ${{ secrets.GHCR_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.GHCR_PAT }}
+
+jobs:
+  build-deploy-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare Environment
+        id: prepare
+        run: |
+          BUILD_CREATED=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          BUILD_REVISION=${GITHUB_SHA::8}
+          BUILD_VERSION=latest
+          DOCKER_IMAGE=ghcr.io/maglevlabs/infrastructure-toolkit
+        
+          echo ::set-output name=build_created::${BUILD_CREATED}
+          echo ::set-output name=build_revision::${BUILD_REVISION}
+          echo ::set-output name=build_version::${BUILD_VERSION}
+          echo ::set-output name=docker_image::${DOCKER_IMAGE}
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build Image
+        run: |
+          docker build \
+          --build-arg BUILD_CREATED=${{ steps.prepare.outputs.build_created }} \
+          --build-arg BUILD_REVISION=${{ steps.prepare.outputs.build_revision }} \
+          --build-arg BUILD_VERSION=${{ steps.prepare.outputs.build_version }} \
+          --tag ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.build_version }} \
+          --file Dockerfile .
+
+      - name: Login to GitHub Container Registry
+        run: |
+          echo ${DOCKER_PASSWORD} | docker login ghcr.io -u ${DOCKER_USERNAME} --password-stdin
+
+      - name: Push Image to GitHub Container Registry
+        run: |
+          docker push ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.build_version }}
