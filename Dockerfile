@@ -16,11 +16,14 @@ LABEL org.opencontainers.image.authors="Platforms and Infrastructure (platformsa
 
 ENV TOOL_VERSION_ANSIBLE="2.10.0" \
     TOOL_VERSION_AWSCLI="2.0.54" \
+    TOOL_VERSION_AZCLI="2.12.1" \
     TOOL_VERSION_GITCRYPT="0.6.0" \
+    TOOL_VERSION_GCLOUD="312.0.0" \
     TOOL_VERSION_KD="1.16.0" \
     TOOL_VERSION_KUBECTL="1.19.0" \
     TOOL_VERSION_TERRAFORM="0.13.4" \
-    TOOL_VERSION_TERRAGRUNT="0.25.2"
+    TOOL_VERSION_TERRAGRUNT="0.25.2" \
+    PATH="${PATH}:/usr/local/bin/google-cloud-sdk/bin"
 
 RUN yum install -y \
       python3 \
@@ -37,8 +40,15 @@ RUN yum install -y \
     && rm -rf \
       awscli-exe-linux-x86_64-${TOOL_VERSION_AWSCLI}.zip \
       aws \
+    # Azure CLI
+    && yum install -y https://packages.microsoft.com/yumrepos/azure-cli/azure-cli-${TOOL_VERSION_AZCLI}-1.el7.x86_64.rpm \
     # Git Crypt
     && yum install -y https://cbs.centos.org/kojifiles/packages/git-crypt/${TOOL_VERSION_GITCRYPT}/1.el7/x86_64/git-crypt-${TOOL_VERSION_GITCRYPT}-1.el7.x86_64.rpm \
+    # Google Cloud SDK
+    && curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${TOOL_VERSION_GCLOUD}-linux-x86_64.tar.gz \
+      -o google-cloud-sdk-${TOOL_VERSION_GCLOUD}-linux-x86_64.tar.gz \
+    && tar -zxf google-cloud-sdk-${TOOL_VERSION_GCLOUD}-linux-x86_64.tar.gz \
+    && mv google-cloud-sdk /usr/local/bin/google-cloud-sdk \
     # kd
     && curl -L https://github.com/UKHomeOffice/kd/releases/download/v${TOOL_VERSION_KD}/kd_linux_amd64 \
       -o /usr/local/bin/kd \
