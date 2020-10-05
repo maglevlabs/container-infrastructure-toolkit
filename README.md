@@ -5,7 +5,8 @@
 | ansible | 2.10.0 | https://github.com/ansible-community/ansible-build-data/blob/main/2.10/CHANGELOG-v2.10.rst |
 | aws | 2.0.54 | https://github.com/aws/aws-cli/blob/2.0.54/CHANGELOG.rst |
 | az | 2.12.1 | https://github.com/Azure/azure-cli/releases/tag/azure-cli-2.12.1 |
-| cfn-guard | 1.0.0 | https://github.com/aws-cloudformation/cloudformation-guard/releases/tag/1.0.0 |
+| cfn-guard | 0.1.1 | https://github.com/maglevlabs/cloudformation-guard/releases/tag/0.1.1 |
+| cfn-lint | 0.37.0 | https://github.com/aws-cloudformation/cfn-python-lint/releases/tag/v0.37.0 |
 | git-crypt | 0.6.0 | https://github.com/AGWA/git-crypt/releases/tag/0.6.0 |
 | gcloud | 312.0.0 | https://cloud.google.com/sdk/docs/release-notes#31200_2020-09-29 |
 | kd | v1.16.0 | https://github.com/UKHomeOffice/kd/releases/tag/v1.16.0 |
