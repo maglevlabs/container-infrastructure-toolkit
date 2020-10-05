@@ -17,12 +17,15 @@ LABEL org.opencontainers.image.authors="Platforms and Infrastructure (platformsa
 ENV TOOL_VERSION_ANSIBLE="2.10.0" \
     TOOL_VERSION_AWSCLI="2.0.54" \
     TOOL_VERSION_AZCLI="2.12.1" \
+    TOOL_VERSION_CFN_GUARD="0.1.1" \
+    TOOL_VERSION_CFN_LINT="0.37.0" \
     TOOL_VERSION_GITCRYPT="0.6.0" \
     TOOL_VERSION_GCLOUD="312.0.0" \
     TOOL_VERSION_KD="1.16.0" \
     TOOL_VERSION_KUBECTL="1.19.0" \
     TOOL_VERSION_TERRAFORM="0.13.4" \
     TOOL_VERSION_TERRAGRUNT="0.25.2" \
+    TOOL_VERSION_YAMLLINT="1.25.0" \
     PATH="${PATH}:/usr/local/bin/google-cloud-sdk/bin"
 
 RUN yum install -y \
@@ -32,6 +35,8 @@ RUN yum install -y \
     && pip3 install --no-cache-dir \
       ansible==${TOOL_VERSION_ANSIBLE} \
       ansible-base==${TOOL_VERSION_ANSIBLE} \
+      cfn-lint==${TOOL_VERSION_CFN_LINT} \
+      yamllint==${TOOL_VERSION_YAMLLINT} \
     # AWS CLI
     && curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${TOOL_VERSION_AWSCLI}.zip \
       -o awscli-exe-linux-x86_64-${TOOL_VERSION_AWSCLI}.zip \
@@ -42,6 +47,14 @@ RUN yum install -y \
       aws \
     # Azure CLI
     && yum install -y https://packages.microsoft.com/yumrepos/azure-cli/azure-cli-${TOOL_VERSION_AZCLI}-1.el7.x86_64.rpm \
+    # CloudFormation Guard
+    && curl -L https://github.com/maglevlabs/cloudformation-guard/releases/download/${TOOL_VERSION_CFN_GUARD}/cfn-guard-linux-amd64.tar.gz \
+      -o cfn-guard-linux-amd64.tar.gz \
+    && tar -zxf cfn-guard-linux-amd64.tar.gz \
+    && mv cfn-guard-linux-amd64/cfn-guard /usr/local/bin/cfn-guard \
+    && rm -rf \
+      cfn-guard-linux-amd64.tar.gz \
+      cfn-guard-linux-amd64 \
     # Git Crypt
     && yum install -y https://cbs.centos.org/kojifiles/packages/git-crypt/${TOOL_VERSION_GITCRYPT}/1.el7/x86_64/git-crypt-${TOOL_VERSION_GITCRYPT}-1.el7.x86_64.rpm \
     # Google Cloud SDK
@@ -49,6 +62,7 @@ RUN yum install -y \
       -o google-cloud-sdk-${TOOL_VERSION_GCLOUD}-linux-x86_64.tar.gz \
     && tar -zxf google-cloud-sdk-${TOOL_VERSION_GCLOUD}-linux-x86_64.tar.gz \
     && mv google-cloud-sdk /usr/local/bin/google-cloud-sdk \
+    && rm -rf google-cloud-sdk-${TOOL_VERSION_GCLOUD}-linux-x86_64.tar.gz \
     # kd
     && curl -L https://github.com/UKHomeOffice/kd/releases/download/v${TOOL_VERSION_KD}/kd_linux_amd64 \
       -o /usr/local/bin/kd \
