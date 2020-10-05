@@ -17,7 +17,8 @@ LABEL org.opencontainers.image.authors="Platforms and Infrastructure (platformsa
 ENV TOOL_VERSION_ANSIBLE="2.10.0" \
     TOOL_VERSION_AWSCLI="2.0.54" \
     TOOL_VERSION_AZCLI="2.12.1" \
-    TOOL_VERSION_CFN_GUARD="1.0.0" \
+    TOOL_VERSION_CFN_GUARD="0.1.1" \
+    TOOL_VERSION_CFN_LINT="0.37.0" \
     TOOL_VERSION_GITCRYPT="0.6.0" \
     TOOL_VERSION_GCLOUD="312.0.0" \
     TOOL_VERSION_KD="1.16.0" \
@@ -34,6 +35,7 @@ RUN yum install -y \
     && pip3 install --no-cache-dir \
       ansible==${TOOL_VERSION_ANSIBLE} \
       ansible-base==${TOOL_VERSION_ANSIBLE} \
+      cfn-lint==${TOOL_VERSION_CFN_LINT} \
       yamllint==${TOOL_VERSION_YAMLLINT} \
     # AWS CLI
     && curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${TOOL_VERSION_AWSCLI}.zip \
@@ -46,13 +48,13 @@ RUN yum install -y \
     # Azure CLI
     && yum install -y https://packages.microsoft.com/yumrepos/azure-cli/azure-cli-${TOOL_VERSION_AZCLI}-1.el7.x86_64.rpm \
     # CloudFormation Guard
-    && curl -L https://github.com/aws-cloudformation/cloudformation-guard/releases/download/${TOOL_VERSION_CFN_GUARD}/cfn-guard-linux-${TOOL_VERSION_CFN_GUARD}.tar.gz \
-      -o cfn-guard-linux-${TOOL_VERSION_CFN_GUARD}.tar.gz \
-    && tar -zxf cfn-guard-linux-${TOOL_VERSION_CFN_GUARD}.tar.gz \
-    && mv cfn-guard-linux/cfn-guard /usr/local/bin/cfn-guard \
+    && curl -L https://github.com/maglevlabs/cloudformation-guard/releases/download/${TOOL_VERSION_CFN_GUARD}/cfn-guard-linux-amd64.tar.gz \
+      -o cfn-guard-linux-amd64.tar.gz \
+    && tar -zxf cfn-guard-linux-amd64.tar.gz \
+    && mv cfn-guard-linux-amd64/cfn-guard /usr/local/bin/cfn-guard \
     && rm -rf \
-      cfn-guard-linux-${TOOL_VERSION_CFN_GUARD}.tar.gz \
-      cfn-guard-linux \
+      cfn-guard-linux-amd64.tar.gz \
+      cfn-guard-linux-amd64 \
     # Git Crypt
     && yum install -y https://cbs.centos.org/kojifiles/packages/git-crypt/${TOOL_VERSION_GITCRYPT}/1.el7/x86_64/git-crypt-${TOOL_VERSION_GITCRYPT}-1.el7.x86_64.rpm \
     # Google Cloud SDK
