@@ -49,7 +49,10 @@ RUN yum install -y \
     && curl -L https://github.com/aws-cloudformation/cloudformation-guard/releases/download/${TOOL_VERSION_CFN_GUARD}/cfn-guard-linux-${TOOL_VERSION_CFN_GUARD}.tar.gz \
       -o cfn-guard-linux-${TOOL_VERSION_CFN_GUARD}.tar.gz \
     && tar -zxf cfn-guard-linux-${TOOL_VERSION_CFN_GUARD}.tar.gz \
-    && mv cfn-guard-linux/cfn-guard /usr/local/bin/cfn-guard
+    && mv cfn-guard-linux/cfn-guard /usr/local/bin/cfn-guard \
+    && rm -rf \
+      cfn-guard-linux-${TOOL_VERSION_CFN_GUARD}.tar.gz \
+      cfn-guard-linux \
     # Git Crypt
     && yum install -y https://cbs.centos.org/kojifiles/packages/git-crypt/${TOOL_VERSION_GITCRYPT}/1.el7/x86_64/git-crypt-${TOOL_VERSION_GITCRYPT}-1.el7.x86_64.rpm \
     # Google Cloud SDK
@@ -57,6 +60,7 @@ RUN yum install -y \
       -o google-cloud-sdk-${TOOL_VERSION_GCLOUD}-linux-x86_64.tar.gz \
     && tar -zxf google-cloud-sdk-${TOOL_VERSION_GCLOUD}-linux-x86_64.tar.gz \
     && mv google-cloud-sdk /usr/local/bin/google-cloud-sdk \
+    && rm -rf google-cloud-sdk-${TOOL_VERSION_GCLOUD}-linux-x86_64.tar.gz \
     # kd
     && curl -L https://github.com/UKHomeOffice/kd/releases/download/v${TOOL_VERSION_KD}/kd_linux_amd64 \
       -o /usr/local/bin/kd \
