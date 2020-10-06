@@ -39,10 +39,20 @@ jobs:
           --tag ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.build_version }} \
           --file Dockerfile .
 
+      - name: Build Alpine Image
+        run: |
+          docker build \
+          --build-arg BUILD_CREATED=${{ steps.prepare.outputs.build_created }} \
+          --build-arg BUILD_REVISION=${{ steps.prepare.outputs.build_revision }} \
+          --build-arg BUILD_VERSION=${{ steps.prepare.outputs.build_version }} \
+          --tag ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.build_version }}-alpine \
+          --file Dockerfile.alpine .
+
       - name: Login to GitHub Container Registry
         run: |
           echo ${DOCKER_PASSWORD} | docker login ghcr.io -u ${DOCKER_USERNAME} --password-stdin
 
-      - name: Push Image to GitHub Container Registry
+      - name: Push Images to GitHub Container Registry
         run: |
           docker push ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.build_version }}
+          docker push ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.build_version }}-alpine
