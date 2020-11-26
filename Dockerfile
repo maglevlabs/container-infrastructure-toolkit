@@ -14,11 +14,13 @@ LABEL org.opencontainers.image.authors="Platforms and Infrastructure (platformsa
       org.opencontainers.image.revision="${BUILD_REVISION}" \
       org.opencontainers.image.version="${BUILD_VERSION}"
 
-ENV TOOL_VERSION_GITCRYPT="0.6.0-r1" \
+ENV TOOL_AWS_IAM_AUTHENTICATOR="0.5.2" \
+    TOOL_VERSION_GITCRYPT="0.6.0-r1" \
     TOOL_VERSION_KD="1.17.0" \
-    TOOL_VERSION_KUBECTL="1.19.0" \
+    TOOL_KOPS_VERSION="1.18.2" \
+    TOOL_VERSION_KUBECTL="1.19.4" \
     TOOL_VERSION_TERRAFORM="0.13.5" \
-    TOOL_VERSION_TERRAGRUNT="0.26.2"
+    TOOL_VERSION_TERRAGRUNT="0.26.7"
 
 RUN sed -i 's|http://dl-cdn.alpinelinux.org|https://alpine.global.ssl.fastly.net|g' /etc/apk/repositories \ 
     && apk add --no-cache \
@@ -26,10 +28,18 @@ RUN sed -i 's|http://dl-cdn.alpinelinux.org|https://alpine.global.ssl.fastly.net
       ca-certificates \
       curl \
       git-crypt=${TOOL_VERSION_GITCRYPT} \
+    # AWS IAM Authenticator
+    && curl -L https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${TOOL_AWS_IAM_AUTHENTICATOR}/aws-iam-authenticator_${TOOL_AWS_IAM_AUTHENTICATOR}_linux_amd64 \
+      -o /usr/local/bin/aws-iam-authenticator \
+    && chmod +x /usr/local/bin/aws-iam-authenticator \
     # kd
     && curl -L https://github.com/UKHomeOffice/kd/releases/download/v${TOOL_VERSION_KD}/kd_linux_amd64 \
       -o /usr/local/bin/kd \
     && chmod +x /usr/local/bin/kd \
+    # kOps
+    && curl -L https://github.com/kubernetes/kops/releases/download/v${TOOL_KOPS_VERSION}/kops-linux-amd64 \
+      -o /usr/local/bin/kops \
+    && chmod +x /usr/local/bin/kops \
     # Kubectl
     && curl -L https://storage.googleapis.com/kubernetes-release/release/v${TOOL_VERSION_KUBECTL}/bin/linux/amd64/kubectl \
       -o /usr/local/bin/kubectl \
