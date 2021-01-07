@@ -7,7 +7,7 @@ ARG BUILD_VERSION
 LABEL org.opencontainers.image.authors="Platforms and Infrastructure (platformsandinfrastructure@maglevlabs.com)" \
       org.opencontainers.image.vendor="Maglev Labs" \
       org.opencontainers.image.title="infrastructure-toolkit" \
-      org.opencontainers.image.description="Infrastructure Toolkit Container - Slim" \
+      org.opencontainers.image.description="Infrastructure Toolkit Container" \
       org.opencontainers.image.source="https://github.com/maglevlabs/container-infrastructure-toolkit" \
       org.opencontainers.image.licenses="MIT License" \
       org.opencontainers.image.created="${BUILD_CREATED}" \
@@ -16,10 +16,10 @@ LABEL org.opencontainers.image.authors="Platforms and Infrastructure (platformsa
 
 ENV TOOL_AWS_IAM_AUTHENTICATOR="0.5.2" \
     TOOL_VERSION_GITCRYPT="0.6.0-r1" \
-    TOOL_VERSION_KD="1.17.0" \
+    TOOL_VERSION_KD="1.17.1" \
     TOOL_KOPS_VERSION="1.18.2" \
     TOOL_VERSION_KUBECTL="1.19.4" \
-    TOOL_VERSION_TERRAFORM="0.13.5" \
+    TOOL_VERSION_TERRAFORM="0.13.6" \
     TOOL_VERSION_TERRAGRUNT="0.26.7"
 
 RUN sed -i 's|http://dl-cdn.alpinelinux.org|https://alpine.global.ssl.fastly.net|g' /etc/apk/repositories \ 
