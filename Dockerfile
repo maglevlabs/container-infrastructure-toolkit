@@ -19,8 +19,8 @@ ENV TOOL_AWS_IAM_AUTHENTICATOR="0.5.2" \
     TOOL_VERSION_KD="1.17.1" \
     TOOL_KOPS_VERSION="1.18.2" \
     TOOL_VERSION_KUBECTL="1.19.4" \
-    TOOL_VERSION_TERRAFORM="0.13.6" \
-    TOOL_VERSION_TERRAGRUNT="0.26.7"
+    TOOL_VERSION_TERRAFORM="0.14.4" \
+    TOOL_VERSION_TERRAGRUNT="0.27.0"
 
 RUN sed -i 's|http://dl-cdn.alpinelinux.org|https://alpine.global.ssl.fastly.net|g' /etc/apk/repositories \ 
     && apk add --no-cache \
