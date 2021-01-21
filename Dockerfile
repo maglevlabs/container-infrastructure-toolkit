@@ -28,6 +28,8 @@ RUN sed -i 's|http://dl-cdn.alpinelinux.org|https://alpine.global.ssl.fastly.net
       ca-certificates \
       curl \
       git-crypt=${TOOL_VERSION_GITCRYPT} \
+      python3 \
+      py3-pip \
     # AWS IAM Authenticator
     && curl -L https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${TOOL_AWS_IAM_AUTHENTICATOR}/aws-iam-authenticator_${TOOL_AWS_IAM_AUTHENTICATOR}_linux_amd64 \
       -o /usr/local/bin/aws-iam-authenticator \
