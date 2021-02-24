@@ -42,3 +42,5 @@ jobs:
         uses: anchore/scan-action@v2
         with:
           image: "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.build_version }}"
+          fail-build: "true"
+          severity-cutoff: "medium"
