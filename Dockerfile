@@ -14,47 +14,53 @@ LABEL org.opencontainers.image.authors="Platforms and Infrastructure (platformsa
       org.opencontainers.image.revision="${BUILD_REVISION}" \
       org.opencontainers.image.version="${BUILD_VERSION}"
 
-ENV TOOL_AWS_IAM_AUTHENTICATOR="0.5.2" \
-    TOOL_VERSION_GITCRYPT="0.6.0-r1" \
-    TOOL_VERSION_KD="1.17.1" \
-    TOOL_KOPS_VERSION="1.18.2" \
-    TOOL_VERSION_KUBECTL="1.19.4" \
-    TOOL_VERSION_TERRAFORM="0.14.4" \
-    TOOL_VERSION_TERRAGRUNT="0.27.0"
+ENV AWS_IAM_AUTHENTICATOR_VERSION="0.5.2" \
+    GITCRYPT_VERSION="0.6.0-r1" \
+    HELM_VERSION="3.5.2" \
+    KD_VERSION="1.17.1" \
+    KOPS_VERSION="1.19.1" \
+    KUBECTL_VERSION="1.20.4" \
+    TERRAFORM_VERSION="0.14.7" \
+    TERRAGRUNT_VERSION="0.28.7"
 
-RUN sed -i 's|http://dl-cdn.alpinelinux.org|https://alpine.global.ssl.fastly.net|g' /etc/apk/repositories \ 
-    && apk add --no-cache \
+RUN apk add --no-cache \
       bash \
       ca-certificates \
       curl \
-      git-crypt=${TOOL_VERSION_GITCRYPT} \
+      git-crypt=${GITCRYPT_VERSION} \
       python3 \
       py3-pip \
     # AWS IAM Authenticator
-    && curl -L https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${TOOL_AWS_IAM_AUTHENTICATOR}/aws-iam-authenticator_${TOOL_AWS_IAM_AUTHENTICATOR}_linux_amd64 \
-      -o /usr/local/bin/aws-iam-authenticator \
+    && curl --location https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${AWS_IAM_AUTHENTICATOR_VERSION}/aws-iam-authenticator_${AWS_IAM_AUTHENTICATOR_VERSION}_linux_amd64 \
+      --output /usr/local/bin/aws-iam-authenticator \
     && chmod +x /usr/local/bin/aws-iam-authenticator \
+    # Helm
+    && curl --location https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+      --output helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+    && tar -zxvf helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+    && mv linux-amd64/helm /usr/local/bin/helm \
+    && rm -rf helm-v${HELM_VERSION}-linux-amd64.tar.gz linux-amd64 \
     # kd
-    && curl -L https://github.com/UKHomeOffice/kd/releases/download/v${TOOL_VERSION_KD}/kd_linux_amd64 \
-      -o /usr/local/bin/kd \
+    && curl --location https://github.com/UKHomeOffice/kd/releases/download/v${KD_VERSION}/kd_linux_amd64 \
+      --output /usr/local/bin/kd \
     && chmod +x /usr/local/bin/kd \
     # kOps
-    && curl -L https://github.com/kubernetes/kops/releases/download/v${TOOL_KOPS_VERSION}/kops-linux-amd64 \
-      -o /usr/local/bin/kops \
+    && curl --location https://github.com/kubernetes/kops/releases/download/v${KOPS_VERSION}/kops-linux-amd64 \
+      --output /usr/local/bin/kops \
     && chmod +x /usr/local/bin/kops \
     # Kubectl
-    && curl -L https://storage.googleapis.com/kubernetes-release/release/v${TOOL_VERSION_KUBECTL}/bin/linux/amd64/kubectl \
-      -o /usr/local/bin/kubectl \
+    && curl --location https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
+      --output /usr/local/bin/kubectl \
     && chmod +x /usr/local/bin/kubectl \
     # Terraform
-    && curl https://releases.hashicorp.com/terraform/${TOOL_VERSION_TERRAFORM}/terraform_${TOOL_VERSION_TERRAFORM}_linux_amd64.zip \
-      -o terraform_${TOOL_VERSION_TERRAFORM}_linux_amd64.zip \
-    && unzip terraform_${TOOL_VERSION_TERRAFORM}_linux_amd64.zip \
+    && curl https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+      --output terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+    && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && mv terraform /usr/local/bin/terraform \
-    && rm -rf terraform_${TOOL_VERSION_TERRAFORM}_linux_amd64.zip \
+    && rm -rf terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     # Terragrunt
-    && curl -L https://github.com/gruntwork-io/terragrunt/releases/download/v${TOOL_VERSION_TERRAGRUNT}/terragrunt_linux_amd64 \
-      -o /usr/local/bin/terragrunt \
+    && curl --location https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_amd64 \
+      --output /usr/local/bin/terragrunt \
     && chmod +x /usr/local/bin/terragrunt
 
 ENTRYPOINT [ "/bin/bash" ]
