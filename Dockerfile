@@ -16,6 +16,7 @@ LABEL org.opencontainers.image.authors="Platforms and Infrastructure (platformsa
 
 ENV AWS_IAM_AUTHENTICATOR_VERSION="0.5.2" \
     GITCRYPT_VERSION="0.6.0-r1" \
+    HELM_VERSION="3.5.2" \
     KD_VERSION="1.17.1" \
     KOPS_VERSION="1.18.2" \
     KUBECTL_VERSION="1.19.4" \
@@ -33,6 +34,12 @@ RUN apk add --no-cache \
     && curl -L https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${AWS_IAM_AUTHENTICATOR_VERSION}/aws-iam-authenticator_${AWS_IAM_AUTHENTICATOR_VERSION}_linux_amd64 \
       -o /usr/local/bin/aws-iam-authenticator \
     && chmod +x /usr/local/bin/aws-iam-authenticator \
+    # Helm
+    && curl -L https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+      -o helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+    && tar -zxvf helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+    && mv linux-amd64/helm /usr/local/bin/helm \
+    && rm -rf helm-v${HELM_VERSION}-linux-amd64.tar.gz linux-amd64 \
     # kd
     && curl -L https://github.com/UKHomeOffice/kd/releases/download/v${KD_VERSION}/kd_linux_amd64 \
       -o /usr/local/bin/kd \
