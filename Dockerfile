@@ -31,36 +31,36 @@ RUN apk add --no-cache \
       python3 \
       py3-pip \
     # AWS IAM Authenticator
-    && curl -L https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${AWS_IAM_AUTHENTICATOR_VERSION}/aws-iam-authenticator_${AWS_IAM_AUTHENTICATOR_VERSION}_linux_amd64 \
-      -o /usr/local/bin/aws-iam-authenticator \
+    && curl --location https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${AWS_IAM_AUTHENTICATOR_VERSION}/aws-iam-authenticator_${AWS_IAM_AUTHENTICATOR_VERSION}_linux_amd64 \
+      --output /usr/local/bin/aws-iam-authenticator \
     && chmod +x /usr/local/bin/aws-iam-authenticator \
     # Helm
-    && curl -L https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
-      -o helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+    && curl --location https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+      --output helm-v${HELM_VERSION}-linux-amd64.tar.gz \
     && tar -zxvf helm-v${HELM_VERSION}-linux-amd64.tar.gz \
     && mv linux-amd64/helm /usr/local/bin/helm \
     && rm -rf helm-v${HELM_VERSION}-linux-amd64.tar.gz linux-amd64 \
     # kd
-    && curl -L https://github.com/UKHomeOffice/kd/releases/download/v${KD_VERSION}/kd_linux_amd64 \
-      -o /usr/local/bin/kd \
+    && curl --location https://github.com/UKHomeOffice/kd/releases/download/v${KD_VERSION}/kd_linux_amd64 \
+      --output /usr/local/bin/kd \
     && chmod +x /usr/local/bin/kd \
     # kOps
-    && curl -L https://github.com/kubernetes/kops/releases/download/v${KOPS_VERSION}/kops-linux-amd64 \
-      -o /usr/local/bin/kops \
+    && curl --location https://github.com/kubernetes/kops/releases/download/v${KOPS_VERSION}/kops-linux-amd64 \
+      --output /usr/local/bin/kops \
     && chmod +x /usr/local/bin/kops \
     # Kubectl
-    && curl -L https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
-      -o /usr/local/bin/kubectl \
+    && curl --location https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
+      --output /usr/local/bin/kubectl \
     && chmod +x /usr/local/bin/kubectl \
     # Terraform
     && curl https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
-      -o terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+      --output terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && mv terraform /usr/local/bin/terraform \
     && rm -rf terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     # Terragrunt
-    && curl -L https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_amd64 \
-      -o /usr/local/bin/terragrunt \
+    && curl --location https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_amd64 \
+      --output /usr/local/bin/terragrunt \
     && chmod +x /usr/local/bin/terragrunt
 
 ENTRYPOINT [ "/bin/bash" ]
