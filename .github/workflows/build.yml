@@ -37,3 +37,8 @@ jobs:
           --build-arg BUILD_VERSION=${{ steps.prepare.outputs.build_version }} \
           --tag ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.build_version }} \
           --file Dockerfile .
+
+      - name: Scan Image
+        uses: anchore/scan-action@v2
+        with:
+          image: "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.build_version }}"
