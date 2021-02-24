@@ -29,15 +29,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # - name: Build Image
-      #   run: |
-      #     docker build \
-      #     --build-arg BUILD_CREATED=${{ steps.prepare.outputs.build_created }} \
-      #     --build-arg BUILD_REVISION=${{ steps.prepare.outputs.build_revision }} \
-      #     --build-arg BUILD_VERSION=${{ steps.prepare.outputs.build_version }} \
-      #     --tag ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.build_version }} \
-      #     --file Dockerfile .
-
       - name: Build Image
         uses: docker/build-push-action@v2
         with:
